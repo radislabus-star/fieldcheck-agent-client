@@ -1,0 +1,11 @@
+{
+  "name": "OpenQFR public read-only schema version",
+  "url": "https://openqfr.dev",
+  "transport": "HTTP+JSON",
+  "input_data": {"operation": "stats"},
+  "response_state": "message",
+  "data_path": "/schemaVersion",
+  "data_equals": "0.1.0-pilot",
+  "trials": 1,
+  "p95_seconds": 15
+}

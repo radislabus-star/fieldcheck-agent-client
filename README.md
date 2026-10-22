@@ -43,7 +43,7 @@ The key is saved with owner-only permissions and is not printed.
 
 Copy `examples/router-contract.json` and replace its example origin with an
 agent you are authorized to invoke. That target must accept unauthenticated
-A2A 1.0 JSON-RPC requests over public HTTPS on port 443.
+A2A 1.0 JSON-RPC or HTTP+JSON requests over public HTTPS on port 443.
 
 ```json
 {
@@ -68,6 +68,32 @@ Exit codes: **0** assertion passed, **1** assertion failed, **2** client error.
 Save the printed task ID to resume with `--resume TASK_ID`. For a network retry,
 reuse the same `--message-id` and exact contract: the service returns the same
 task without charging another credit. A new check needs a new message ID.
+
+## Structured read-only example
+
+The OpenQFR owner [invites public read-only interoperability tests](https://github.com/openqfr-dev/openqfr/issues/2).
+The included `examples/openqfr-stats-contract.json` selects its advertised
+HTTP+JSON binding, sends `{"operation":"stats"}` as a structured part and
+expects an immediate Message. It asserts `/schemaVersion`, not the field's
+internal Python spelling. It does not validate the research or trading results.
+The [timestamped report](docs/OPENQFR_INTEROP.md) includes a direct reproduction,
+the observed positive result and a deliberate failing assertion. It is operator
+QA, not a customer activation or an endorsement by OpenQFR.
+
+```bash
+.venv/bin/python examples/check_agent.py \
+  --service https://ver-feels-passing-carb.trycloudflare.com \
+  --key-file ~/.fieldcheck-beta-key \
+  --contract examples/openqfr-stats-contract.json \
+  --message-id openqfr-stats-check-1 --junit openqfr.xml
+```
+
+Target defaults remain `transport: "JSONRPC"` and `response_state: "completed"`.
+Optional `input_data` is one JSON object of at most 4096 UTF-8 bytes. It sends no
+text unless `message` is supplied; supplying both sends both. Without either,
+the original routing-demo message is used. The full contract must fit 16384
+UTF-8 bytes. These fields select the target exchange; the client still orders
+checks from Fieldcheck through JSON-RPC. The server must be 0.2.1 or later.
 
 ## Use from an orchestrator
 
