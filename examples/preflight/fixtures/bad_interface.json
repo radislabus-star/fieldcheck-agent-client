@@ -1,0 +1,15 @@
+{
+  "name": "Fixture only",
+  "version": "9.9.9",
+  "supportedInterfaces": [
+    null
+  ],
+  "capabilities": {},
+  "skills": [],
+  "defaultInputModes": [
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "text/plain"
+  ]
+}

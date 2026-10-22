@@ -1,0 +1,13 @@
+{
+  "name": "Fixture only",
+  "version": "9.9.9",
+  "capabilities": {},
+  "skills": [],
+  "defaultInputModes": [
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "text/plain"
+  ],
+  "protocolVersion": "0.3.0"
+}

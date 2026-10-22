@@ -8,6 +8,21 @@ Fieldcheck supports **A2A 1.0 JSON-RPC** through `SendMessage` and `GetTask`.
 It does not use an LLM to turn prose into a contract. The client needs only
 Python 3.10+ and HTTPX; it does not install the Fieldcheck server or its checker.
 
+## Check compatibility before signup
+
+Want to inspect a dependency before creating a workspace? The
+[anonymous preflight](examples/preflight/README.md) reads its public A2A Card
+using Python's standard library and reports advertised version, transport and
+authentication compatibility. No account or credits are needed.
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/radislabus-star/fieldcheck-agent-client/main/examples/preflight/preflight.py -o fieldcheck-preflight.py
+python3 fieldcheck-preflight.py https://YOUR-AGENT/.well-known/agent-card.json
+```
+
+Replace `YOUR-AGENT` with your dependency's hostname. This reads discovery
+metadata; the real behavioral check follows through the client below.
+
 ## Try the public beta
 
 **Stable gateway address, checked 2026-10-22:**

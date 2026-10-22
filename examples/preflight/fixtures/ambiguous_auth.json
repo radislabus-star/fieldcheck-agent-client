@@ -1,0 +1,22 @@
+{
+  "name": "Fixture only",
+  "version": "9.9.9",
+  "supportedInterfaces": [
+    {
+      "url": "https://example.com/a2a",
+      "protocolVersion": "1.0",
+      "protocolBinding": "JSONRPC"
+    }
+  ],
+  "capabilities": {},
+  "skills": [],
+  "defaultInputModes": [
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "text/plain"
+  ],
+  "securitySchemes": {
+    "key": {}
+  }
+}

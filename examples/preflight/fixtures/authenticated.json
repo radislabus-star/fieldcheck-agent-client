@@ -1,0 +1,58 @@
+{
+  "name": "A2A Fieldcheck",
+  "description": "Beta behavioral checks for A2A 1.0 agents over JSON-RPC or HTTP+JSON, with private JSON/JUnit evidence. 20 free check credits per workspace via explicit API onboarding. The public beta uses a temporary development tunnel with no uptime guarantee. Paid checkout is disabled. No wallet keys or automatic spending required.",
+  "version": "0.2.2",
+  "supportedInterfaces": [
+    {
+      "url": "https://a2a-fieldcheck.radislabus.workers.dev/a2a",
+      "protocolBinding": "JSONRPC",
+      "protocolVersion": "1.0"
+    }
+  ],
+  "documentationUrl": "https://a2a-fieldcheck.radislabus.workers.dev/agents",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "defaultInputModes": [
+    "application/json",
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "application/json",
+    "text/plain"
+  ],
+  "securitySchemes": {
+    "workspaceKey": {
+      "httpAuthSecurityScheme": {
+        "scheme": "Bearer"
+      }
+    }
+  },
+  "securityRequirements": [
+    {
+      "schemes": {
+        "workspaceKey": {
+          "list": []
+        }
+      }
+    }
+  ],
+  "skills": [
+    {
+      "id": "check-a2a-behavior",
+      "name": "Check A2A agent behavior",
+      "description": "Submit a bounded check contract with target origin, message and expected text or JSON value. Receive pass/fail, latency and JUnit. One credit per completed check; infrastructure errors refund it. This is a behavioral check, not protocol certification.",
+      "tags": [
+        "a2a",
+        "regression-testing",
+        "agent-reliability",
+        "junit",
+        "monitoring"
+      ],
+      "examples": [
+        "{\"command\": \"check\", \"contract\": {\"name\": \"Try a real A2A exchange\", \"url\": \"demo:healthy\"}}"
+      ]
+    }
+  ]
+}
