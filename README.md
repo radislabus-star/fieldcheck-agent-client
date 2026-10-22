@@ -20,6 +20,9 @@ contracts. Use the supplied HTTPX client; Cloudflare rejected Python urllib's
 default client with 403/1010 in the live check. See [endpoint details](docs/ENDPOINT.md).
 The current beta has **20 free checks per workspace**. Paid checkout is disabled.
 
+Public discovery record: [Global A2A Registry](https://www.a2a-registry.org/agent/dev.workers.a2a_fieldcheck).
+The listing is unclaimed; it is not protocol certification or an endorsement.
+
 - [Agent Card](https://a2a-fieldcheck.radislabus.workers.dev/.well-known/agent-card.json)
 - [Machine integration, contract schema and limits](https://a2a-fieldcheck.radislabus.workers.dev/agents)
 - [Optional operator dashboard](https://a2a-fieldcheck.radislabus.workers.dev/)
