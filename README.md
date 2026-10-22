@@ -13,9 +13,9 @@ Python 3.10+ and HTTPX; it does not install the Fieldcheck server or its checker
 **Stable gateway address, checked 2026-10-22:**
 <https://a2a-fieldcheck.radislabus.workers.dev>
 
-The gateway keeps its address when the backend tunnel changes. The backend is
-still a local beta reached through a development tunnel, without an availability
-guarantee. It is unsuitable for a production dependency. Do not send secrets in
+The beta runs on an Amsterdam VPS behind a persistent named tunnel; the public
+gateway address is fixed. Hosted HTTP, browser login and A2A replay passed on
+2026-10-22. Availability has no production SLA. Do not send secrets in
 contracts. Use the supplied HTTPX client; Cloudflare rejected Python urllib's
 default client with 403/1010 in the live check. See [endpoint details](docs/ENDPOINT.md).
 The current beta has **20 free checks per workspace**. Paid checkout is disabled.

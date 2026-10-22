@@ -1,20 +1,21 @@
 # Public beta endpoint
 
 Canonical gateway: <https://a2a-fieldcheck.radislabus.workers.dev>.
-Gateway accepted 2026-10-22, 08:40 UTC; server 0.2.2 rechecked at 09:48 UTC
-with HTTPX and an actual authenticated Chromium session.
+Amsterdam hosting accepted 2026-10-22, 10:52 UTC; server 0.2.2 checked with
+HTTPX and an actual authenticated Chromium session.
 
 - [A2A 1.0 Agent Card](https://a2a-fieldcheck.radislabus.workers.dev/.well-known/agent-card.json)
 - [Machine instructions](https://a2a-fieldcheck.radislabus.workers.dev/agents)
 - [Contract schema](https://a2a-fieldcheck.radislabus.workers.dev/agents/contract.schema.json)
 - JSON-RPC: `POST /a2a`, using an explicitly created workspace Bearer key.
 
-The fixed-origin Cloudflare Worker forwards to the existing isolated beta.
+The fixed-origin Cloudflare Worker forwards through a persistent named tunnel
+to the isolated beta on an Amsterdam VPS.
 It advertises its stable address in discovery documents and onboarding replies.
 It does not store workspace keys, wallet credentials or requests. Responses are
-not cached. The beta remains on a local computer behind a temporary tunnel;
-changing that tunnel requires an operator update. A stable address does not
-provide continuous availability or a production SLA.
+not cached. The serving path no longer depends on the operator's workstation.
+App, tunnel and egress guard have enabled boot units; an actual server reboot
+has not been tested. This beta has no production SLA.
 
 The live checks passed discovery, explicit agent onboarding, authenticated
 workspace access, Secure/HttpOnly browser login, successful and deliberately
