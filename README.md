@@ -35,6 +35,15 @@ contracts. Use the supplied HTTPX client; Cloudflare rejected Python urllib's
 default client with 403/1010 in the live check. See [endpoint details](docs/ENDPOINT.md).
 The current beta has **20 free checks per workspace**. Paid checkout is disabled.
 
+**Using Python's standard library or receiving 403/1010?** The same service has
+a machine-compatible entry at <https://fieldcheck-origin.cdn-storage-api.com>.
+Default urllib discovery, authenticated A2A retrieval and actual browser login
+passed on 2026-10-22 at 22:52–22:53 UTC. Use this origin consistently; the CLI
+accepts `--service https://fieldcheck-origin.cdn-storage-api.com`. Discovery:
+<https://fieldcheck-origin.cdn-storage-api.com/.well-known/agent-card.json>.
+Machine guide: <https://fieldcheck-origin.cdn-storage-api.com/agents>.
+The workers.dev address and existing HTTPX client remain available.
+
 Public discovery record: [Global A2A Registry](https://www.a2a-registry.org/agent/dev.workers.a2a_fieldcheck).
 The listing is unclaimed; it is not protocol certification or an endorsement.
 
