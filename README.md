@@ -1,0 +1,134 @@
+# Fieldcheck agent client
+
+Call an A2A agent to check the behavior of another agent. Send a small contract,
+receive pass/fail and JSON/JUnit evidence, and decide whether to continue a
+deployment or delegate to that dependency.
+
+Fieldcheck supports **A2A 1.0 JSON-RPC** through `SendMessage` and `GetTask`.
+It does not use an LLM to turn prose into a contract. The client needs only
+Python 3.10+ and HTTPX; it does not install the Fieldcheck server or its checker.
+
+## Try the public beta
+
+**Temporary beta endpoint, checked 2026-10-22:**
+<https://ver-feels-passing-carb.trycloudflare.com>
+
+This endpoint runs through a development tunnel. It can disappear or change,
+has no availability guarantee, and is unsuitable for a production dependency.
+Use the latest endpoint in this README and do not send secrets in contracts.
+The current beta has **20 free checks per workspace**. Paid checkout is disabled.
+
+- [Agent Card](https://ver-feels-passing-carb.trycloudflare.com/.well-known/agent-card.json)
+- [Machine integration, contract schema and limits](https://ver-feels-passing-carb.trycloudflare.com/agents)
+- [Optional operator dashboard](https://ver-feels-passing-carb.trycloudflare.com/)
+
+```bash
+git clone https://github.com/radislabus-star/fieldcheck-agent-client.git
+cd fieldcheck-agent-client
+python3 -m venv .venv
+.venv/bin/python -m pip install .
+
+# Register explicitly once. The new file holds a secret; keep it private.
+.venv/bin/python examples/check_agent.py \
+  --service https://ver-feels-passing-carb.trycloudflare.com \
+  --register --key-file ~/.fieldcheck-beta-key \
+  --message-id first-demo --junit result.xml
+```
+
+The first run executes a real exchange with our deterministic demo agent; it
+does not need a model key. It is a demonstration, not a customer success claim.
+The key is saved with owner-only permissions and is not printed.
+
+## Check an authorized dependency
+
+Copy `examples/router-contract.json` and replace its example origin with an
+agent you are authorized to invoke. That target must accept unauthenticated
+A2A 1.0 JSON-RPC requests over public HTTPS on port 443.
+
+```json
+{
+  "name": "Support routing before deployment",
+  "url": "https://agent.example.com",
+  "message": "A customer says their card was charged twice.",
+  "data_path": "/queue",
+  "data_equals": "billing-disputes",
+  "trials": 1,
+  "p95_seconds": 15
+}
+```
+
+```bash
+.venv/bin/python examples/check_agent.py \
+  --service https://ver-feels-passing-carb.trycloudflare.com \
+  --key-file ~/.fieldcheck-beta-key --contract my-contract.json \
+  --message-id support-router-release-42 --junit router.xml
+```
+
+Exit codes: **0** assertion passed, **1** assertion failed, **2** client error.
+Save the printed task ID to resume with `--resume TASK_ID`. For a network retry,
+reuse the same `--message-id` and exact contract: the service returns the same
+task without charging another credit. A new check needs a new message ID.
+
+## Use from an orchestrator
+
+```python
+import os
+from fieldcheck_agent import FieldcheckClient
+
+client = FieldcheckClient(
+    "https://ver-feels-passing-carb.trycloudflare.com",
+    key=os.environ["FIELDCHECK_KEY"],
+)
+try:
+    client.discover()
+    task = client.submit(
+        {"name": "Demo contract", "url": "demo:healthy"},
+        message_id="persist-a-unique-id-for-this-check",
+    )
+    task = client.wait(task)
+    report = next(
+        a["parts"][0]["data"] for a in task.get("artifacts", [])
+        if a["name"] == "behavioral-check.json"
+    )
+    allow_delegation = report["passed"] is True
+    # Apply this decision within your own workflow and authorization policy.
+finally:
+    client.close()
+```
+
+`TASK_STATE_COMPLETED` means the check finished; inspect `report["passed"]`
+to decide whether the assertion passed. A failing assertion consumes one credit.
+An infrastructure failure refunds it. Each check can invoke the target 1–3
+times; the target's own provider charges are outside Fieldcheck credits. Owners
+must approve the target, calls and budgets. A check proves only its stated
+contract, not general correctness or full protocol conformance.
+
+The client refuses an Agent Card endpoint on another origin and does not follow
+redirects with the workspace key. It never purchases credits or transfers funds.
+HTTP 402 stops the call and asks for owner-approved funding; do not evade the
+limit by automatically registering another workspace.
+
+## Status and implementation
+
+This repository contains the small client, executable example and client tests.
+The running beta adds workspaces, persisted tasks, a bounded queue, scheduled
+checks through its REST API, credit accounting and private result history.
+It uses [a2a-proof 0.16.0](https://pypi.org/project/a2a-proof/) by Alexey Larionov
+for the behavioral checks; the client does not bundle that engine.
+
+Streaming, push notifications, cancellation, authenticated targets, gRPC,
+A2A 0.3, AP2 and x402 are not supported by this beta. No uptime, conversion or
+revenue claim is made. There are no independent customer results yet.
+
+To report a reproducible integration issue, open an issue with the sanitized
+contract, task state and expected behavior. Never post workspace keys, cookies,
+wallet information or sensitive target responses.
+
+## Development
+
+```bash
+.venv/bin/python -m pip install '.[test]'
+.venv/bin/python -m pytest
+```
+
+MIT license. See [LICENSE](LICENSE).

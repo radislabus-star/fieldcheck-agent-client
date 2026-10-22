@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fieldcheck-agent-client"
+version = "0.2.0"
+description = "Call the Fieldcheck A2A behavioral-check agent without a browser"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = ["httpx>=0.28.1,<1"]
+
+[project.urls]
+Repository = "https://github.com/radislabus-star/fieldcheck-agent-client"
+
+[project.optional-dependencies]
+test = ["pytest>=8.4,<10"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/fieldcheck_agent"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

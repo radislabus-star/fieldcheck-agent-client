@@ -1,0 +1,9 @@
+{
+  "name": "Duplicate charge routing",
+  "url": "https://agent.example.com",
+  "message": "A customer says their card was charged twice.",
+  "data_path": "/queue",
+  "data_equals": "billing-disputes",
+  "trials": 1,
+  "p95_seconds": 15
+}
