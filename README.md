@@ -26,7 +26,7 @@ The current beta has **20 free checks per workspace**. Paid checkout is disabled
 
 With [uv](https://docs.astral.sh/uv/guides/tools/), run the pinned client
 without a manual clone or server installation. Client 0.3.0 works with the
-current 0.2.1 server.
+current 0.2.2 server.
 
 ```bash
 # Register explicitly once. The new file holds a secret; keep it private.
