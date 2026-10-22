@@ -4,12 +4,15 @@ build-backend = "hatchling.build"
 
 [project]
 name = "fieldcheck-agent-client"
-version = "0.2.1"
+version = "0.3.0"
 description = "Call the Fieldcheck A2A behavioral-check agent without a browser"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 dependencies = ["httpx>=0.28.1,<1"]
+
+[project.scripts]
+fieldcheck-agent = "fieldcheck_agent.agent_cli:main"
 
 [project.urls]
 Repository = "https://github.com/radislabus-star/fieldcheck-agent-client"

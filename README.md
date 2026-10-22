@@ -1,4 +1,4 @@
-# Fieldcheck agent client
+# Fieldcheck: behavioral checks for A2A agents
 
 Call an A2A agent to check the behavior of another agent. Send a small contract,
 receive pass/fail and JSON/JUnit evidence, and decide whether to continue a
@@ -24,15 +24,13 @@ The current beta has **20 free checks per workspace**. Paid checkout is disabled
 - [Machine integration, contract schema and limits](https://a2a-fieldcheck.radislabus.workers.dev/agents)
 - [Optional operator dashboard](https://a2a-fieldcheck.radislabus.workers.dev/)
 
-```bash
-git clone https://github.com/radislabus-star/fieldcheck-agent-client.git
-cd fieldcheck-agent-client
-python3 -m venv .venv
-.venv/bin/python -m pip install .
+With [uv](https://docs.astral.sh/uv/guides/tools/), run the pinned client
+without a manual clone or server installation. Client 0.3.0 works with the
+current 0.2.1 server.
 
+```bash
 # Register explicitly once. The new file holds a secret; keep it private.
-.venv/bin/python examples/check_agent.py \
-  --service https://a2a-fieldcheck.radislabus.workers.dev \
+uvx --from git+https://github.com/radislabus-star/fieldcheck-agent-client.git@v0.3.0 fieldcheck-agent \
   --register --key-file ~/.fieldcheck-beta-key \
   --message-id first-demo --junit result.xml
 ```
@@ -40,6 +38,27 @@ python3 -m venv .venv
 The first run executes a real exchange with our deterministic demo agent; it
 does not need a model key. It is a demonstration, not a customer success claim.
 The key is saved with owner-only permissions and is not printed.
+Use `--register --register-only --key-file NEW_PRIVATE_PATH` to create a
+workspace without ordering the demo or consuming a check credit. Registration
+is explicit; an existing key is never overwritten. Later calls reuse that key.
+
+To install with pip, use a virtual environment and
+`python -m pip install 'git+https://github.com/radislabus-star/fieldcheck-agent-client.git@v0.3.0'`;
+then run `fieldcheck-agent` with the same arguments.
+
+## Install the agent skill
+
+The [a2a-fieldcheck skill](skills/a2a-fieldcheck/SKILL.md) teaches an agent how
+to choose an assertion, preserve its retry ID, respect its workspace budget and
+read the JSON/JUnit result. With Node.js 22.20+:
+
+```bash
+npx skills add radislabus-star/fieldcheck-agent-client --skill a2a-fieldcheck
+```
+
+The [skills CLI](https://github.com/vercel-labs/skills) lets you select your
+coding agent and installs to the current project by default. Installing this
+skill does not register a workspace, run a check or make a purchase.
 
 ## Check an authorized dependency
 
@@ -60,8 +79,7 @@ A2A 1.0 JSON-RPC or HTTP+JSON requests over public HTTPS on port 443.
 ```
 
 ```bash
-.venv/bin/python examples/check_agent.py \
-  --service https://a2a-fieldcheck.radislabus.workers.dev \
+uvx --from git+https://github.com/radislabus-star/fieldcheck-agent-client.git@v0.3.0 fieldcheck-agent \
   --key-file ~/.fieldcheck-beta-key --contract my-contract.json \
   --message-id support-router-release-42 --junit router.xml
 ```
@@ -83,8 +101,7 @@ the observed positive result and a deliberate failing assertion. It is operator
 QA, not a customer activation or an endorsement by OpenQFR.
 
 ```bash
-.venv/bin/python examples/check_agent.py \
-  --service https://a2a-fieldcheck.radislabus.workers.dev \
+uvx --from git+https://github.com/radislabus-star/fieldcheck-agent-client.git@v0.3.0 fieldcheck-agent \
   --key-file ~/.fieldcheck-beta-key \
   --contract examples/openqfr-stats-contract.json \
   --message-id openqfr-stats-check-1 --junit openqfr.xml
