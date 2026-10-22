@@ -10,17 +10,19 @@ Python 3.10+ and HTTPX; it does not install the Fieldcheck server or its checker
 
 ## Try the public beta
 
-**Temporary beta endpoint, checked 2026-10-22:**
-<https://ver-feels-passing-carb.trycloudflare.com>
+**Stable gateway address, checked 2026-10-22:**
+<https://a2a-fieldcheck.radislabus.workers.dev>
 
-This endpoint runs through a development tunnel. It can disappear or change,
-has no availability guarantee, and is unsuitable for a production dependency.
-Use the latest endpoint in this README and do not send secrets in contracts.
+The gateway keeps its address when the backend tunnel changes. The backend is
+still a local beta reached through a development tunnel, without an availability
+guarantee. It is unsuitable for a production dependency. Do not send secrets in
+contracts. Use the supplied HTTPX client; Cloudflare rejected Python urllib's
+default client with 403/1010 in the live check. See [endpoint details](docs/ENDPOINT.md).
 The current beta has **20 free checks per workspace**. Paid checkout is disabled.
 
-- [Agent Card](https://ver-feels-passing-carb.trycloudflare.com/.well-known/agent-card.json)
-- [Machine integration, contract schema and limits](https://ver-feels-passing-carb.trycloudflare.com/agents)
-- [Optional operator dashboard](https://ver-feels-passing-carb.trycloudflare.com/)
+- [Agent Card](https://a2a-fieldcheck.radislabus.workers.dev/.well-known/agent-card.json)
+- [Machine integration, contract schema and limits](https://a2a-fieldcheck.radislabus.workers.dev/agents)
+- [Optional operator dashboard](https://a2a-fieldcheck.radislabus.workers.dev/)
 
 ```bash
 git clone https://github.com/radislabus-star/fieldcheck-agent-client.git
@@ -30,7 +32,7 @@ python3 -m venv .venv
 
 # Register explicitly once. The new file holds a secret; keep it private.
 .venv/bin/python examples/check_agent.py \
-  --service https://ver-feels-passing-carb.trycloudflare.com \
+  --service https://a2a-fieldcheck.radislabus.workers.dev \
   --register --key-file ~/.fieldcheck-beta-key \
   --message-id first-demo --junit result.xml
 ```
@@ -59,7 +61,7 @@ A2A 1.0 JSON-RPC or HTTP+JSON requests over public HTTPS on port 443.
 
 ```bash
 .venv/bin/python examples/check_agent.py \
-  --service https://ver-feels-passing-carb.trycloudflare.com \
+  --service https://a2a-fieldcheck.radislabus.workers.dev \
   --key-file ~/.fieldcheck-beta-key --contract my-contract.json \
   --message-id support-router-release-42 --junit router.xml
 ```
@@ -82,7 +84,7 @@ QA, not a customer activation or an endorsement by OpenQFR.
 
 ```bash
 .venv/bin/python examples/check_agent.py \
-  --service https://ver-feels-passing-carb.trycloudflare.com \
+  --service https://a2a-fieldcheck.radislabus.workers.dev \
   --key-file ~/.fieldcheck-beta-key \
   --contract examples/openqfr-stats-contract.json \
   --message-id openqfr-stats-check-1 --junit openqfr.xml
@@ -102,7 +104,7 @@ import os
 from fieldcheck_agent import FieldcheckClient
 
 client = FieldcheckClient(
-    "https://ver-feels-passing-carb.trycloudflare.com",
+    "https://a2a-fieldcheck.radislabus.workers.dev",
     key=os.environ["FIELDCHECK_KEY"],
 )
 try:
