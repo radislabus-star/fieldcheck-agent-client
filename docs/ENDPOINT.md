@@ -1,7 +1,8 @@
 # Public beta endpoint
 
 Canonical gateway: <https://a2a-fieldcheck.radislabus.workers.dev>.
-Verified 2026-10-22, 08:40 UTC with HTTPX and an actual Chromium session.
+Gateway accepted 2026-10-22, 08:40 UTC; server 0.2.2 rechecked at 09:48 UTC
+with HTTPX and an actual authenticated Chromium session.
 
 - [A2A 1.0 Agent Card](https://a2a-fieldcheck.radislabus.workers.dev/.well-known/agent-card.json)
 - [Machine instructions](https://a2a-fieldcheck.radislabus.workers.dev/agents)
@@ -27,3 +28,5 @@ Chromium both passed. Python urllib's default user agent received Cloudflare
 or every network can reach this beta.
 
 The beta includes 20 free credits per workspace. Checkout remains disabled.
+Server 0.2.2 adds an isolated, receive-only verification connection. It does not
+enable paid checkout: funded mainnet payment acceptance is still untested.
