@@ -74,13 +74,14 @@ with httpx.Client(timeout=20, follow_redirects=False) as client:
 Use the [client instructions](../README.md) and
 [`examples/openqfr-stats-contract.json`](../examples/openqfr-stats-contract.json).
 Register a workspace explicitly once and preserve its key and message IDs.
-The beta offers 20 free checks. It uses a temporary development tunnel and
-paid checkout is disabled. Target calls must remain within the target owner's
-read-only scope.
+The beta offers 20 free checks. The command below uses the verified
+machine-client entry of the hosted service; paid checkout is disabled. Target
+calls must remain within the target owner's read-only scope. The entry address
+was updated on 2026-10-23; the check results above remain dated 2026-10-22.
 
 ```bash
 python examples/check_agent.py \
-  --service https://ver-feels-passing-carb.trycloudflare.com \
+  --service https://fieldcheck-origin.cdn-storage-api.com \
   --key-file fieldcheck.key \
   --contract examples/openqfr-stats-contract.json \
   --message-id my-openqfr-schema-001 --junit openqfr.xml
